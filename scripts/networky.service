@@ -1,0 +1,9 @@
+[Unit]
+Description=Tests the Internet connection
+
+[Service]
+ExecStart=/home/pi/Documents/repos/networky/scripts/systemd.run.sh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

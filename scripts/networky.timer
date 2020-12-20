@@ -1,0 +1,11 @@
+[Unit]
+Description=Execute networky every hour
+
+[Timer]
+OnCalendar=0/1:00:00
+Unit=networky.service
+# Start ASAP if the machine was off
+Persistent=true
+
+[Install]
+WantedBy=timers.target
