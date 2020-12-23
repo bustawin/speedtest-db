@@ -33,11 +33,13 @@ class Server(Base):
 class Update(Base):
     __tablename__ = "updates"
     updated = s.Column(s.DateTime, nullable=False, primary_key=True)
-    download = s.Column(s.BigInteger, nullable=False)
-    upload = s.Column(s.BigInteger, nullable=False)
-    ping = s.Column(s.Float, nullable=False)
-    server_id = s.Column(s.Unicode, s.ForeignKey(Server.id), nullable=False)
-    ip = s.Column(s.Unicode, nullable=False)
+    download = s.Column(s.BigInteger)
+    upload = s.Column(s.BigInteger)
+    ping = s.Column(s.Float)
+    server_id = s.Column(s.Unicode, s.ForeignKey(Server.id))
+    ip = s.Column(s.Unicode)
+    message = s.Column(s.Unicode)
+    error = s.Column(s.Boolean, nullable=False, default=False)
 
     server = orm.relationship(Server)
 

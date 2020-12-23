@@ -3,6 +3,7 @@ from datetime import datetime
 import speedtest
 import typer
 
+import config
 import db
 
 app = typer.Typer()
@@ -26,10 +27,23 @@ def delete():
 def compute():
     """Performs the speedtest and saves the result in the DB."""
     print("Testing...")
-    s = speedtest.Speedtest()
-    s.get_best_server()
-    s.download()
-    s.upload()
+    try:
+        s = speedtest.Speedtest()
+        s.get_servers(servers=config.SERVERS)
+        s.download(threads=config.THREADS)
+        s.upload(threads=config.THREADS)
+    except Exception as e:
+        session = db.Session()
+        update = db.Update(
+            updated=datetime.now(),
+            error=True,
+            message=str(e)
+        )
+        session.add(update)
+        session.commit()
+        print(f"Error {e} saved in DB.")
+        return
+
     print("Test done. Saving...")
 
     session = db.Session()
